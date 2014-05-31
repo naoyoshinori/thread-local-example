@@ -1,0 +1,6 @@
+.gradle
+build
+thread-local-example.iml
+thread-local-example.ipr
+thread-local-example.iws
+out
