@@ -215,16 +215,19 @@ public class CustomAction extends Action {
 
     @Override
     public void execute(ActionForm safeActionForm) {
-        // スレッドローカルを使用することで、スレッドセーフを実現。
-        ActionFormContext.setActionForm(safeActionForm);
+        try {
+            // スレッドローカルを使用することで、スレッドセーフを実現。
+            ActionFormContext.setActionForm(safeActionForm);
 
-        // 処理
-        executeLogic();
+            // 処理
+            executeLogic();
 
-        // スレッドローカルで確保したオブジェクトはスレッド終了時に破棄されるが、
-        // Web アプリケーションのようにスレッドを共有する場合は、
-        // メモリリークが起きないように明示的に開放する必要がある。
-        ActionFormContext.removeActionForm();
+        } finally {
+            // スレッドローカルで確保したオブジェクトはスレッド終了時に破棄されるが、
+            // Web アプリケーションのようにスレッドを共有する場合は、
+            // メモリリークが起きないように明示的に開放する必要がある。
+            ActionFormContext.removeActionForm();
+        }
     }
 
     public void executeLogic() {
